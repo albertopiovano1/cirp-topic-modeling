@@ -91,7 +91,7 @@ class Config:
     # Vectorizer - Better keyword extraction
     VECTORIZER_NGRAM_RANGE = (1, 3)
     VECTORIZER_MIN_DF = 10  # Increased from 5 → filter rare terms
-    VECTORIZER_MAX_DF = 0.5  # NEW: Remove terms in >50% documents
+    VECTORIZER_MAX_DF = 0.95  # FIXED: Was 0.5, too restrictive with large clusters
     VECTORIZER_MAX_FEATURES = 10000
     
     # Representation
@@ -609,7 +609,7 @@ class BERTopicModelBuilder:
         print(f"\n[4/6] Configuring CountVectorizer (OPTIMIZED):")
         print(f"    • ngram_range: {Config.VECTORIZER_NGRAM_RANGE}")
         print(f"    • min_df: {Config.VECTORIZER_MIN_DF} (↑ from 5 → filter rare terms)")
-        print(f"    • max_df: {Config.VECTORIZER_MAX_DF} (NEW → filter common terms)")
+        print(f"    • max_df: {Config.VECTORIZER_MAX_DF} (filter ubiquitous terms)")
         print(f"    • max_features: {Config.VECTORIZER_MAX_FEATURES:,}")
         vectorizer_model = CountVectorizer(
             stop_words=self.stopwords_list,
